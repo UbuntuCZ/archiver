@@ -36,6 +36,7 @@ class Crawler {
                         .map { it.absUrl("href") }
                         .filter(Helpers.isLinkToDomain(domain))
                         .map { Helpers.removeFragment(it) }
+                        .map(Helpers.removeQueryStringKey(*queryStringKeysToRemove))
                         .filterNot(crawled::contains)
                         .forEach { toCrawl.offer(it) }
             } catch (e: IOException) {
@@ -51,6 +52,7 @@ class Crawler {
     }
 
     companion object {
-        val log = LoggerFactory.getLogger(Crawler::class.java)!!
+        private val log = LoggerFactory.getLogger(Crawler::class.java)!!
+        private val queryStringKeysToRemove = arrayOf("PHPSESSID", "do")
     }
 }

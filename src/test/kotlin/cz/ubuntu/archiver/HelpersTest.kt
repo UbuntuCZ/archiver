@@ -46,3 +46,30 @@ class RemoveFragmentTest {
     }
 
 }
+
+class RemoveQueryStringKeyTest {
+
+    @Test
+    fun removesKey() {
+        // Arrange
+        val url = "https://example.com/path/to/file.txt?query=string&key=value#fragment"
+
+        // Act
+        val result = Helpers.removeQueryStringKey("key")(url)
+
+        // Assert
+        assertThat(result).isEqualTo("https://example.com/path/to/file.txt?query=string#fragment")
+    }
+
+    @Test
+    fun removesOnlyKey() {
+        // Arrange
+        val url = "https://example.com/path/to/file.txt?key=value#fragment"
+
+        // Act
+        val result = Helpers.removeQueryStringKey("key")(url)
+
+        // Assert
+        assertThat(result).isEqualTo("https://example.com/path/to/file.txt#fragment")
+    }
+}
