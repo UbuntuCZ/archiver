@@ -27,7 +27,12 @@ class Crawler {
             // Load url and add all links for future crawling
             try {
                 Jsoup.connect(url).get()
-                        .select("a[href]")
+                        .let { listOf(
+                                it.select("a[href]"),
+                                it.select("link[rel=canonical]"),
+                                it.select("link[rel=alternate]")
+                        ) }
+                        .flatten()
                         .map { it.absUrl("href") }
                         .filter(Helpers.isLinkToDomain(domain))
                         .map { Helpers.removeFragment(it) }
