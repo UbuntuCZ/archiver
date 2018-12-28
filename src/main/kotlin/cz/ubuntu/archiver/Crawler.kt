@@ -38,7 +38,7 @@ class Crawler {
             }
 
             if (crawled.size % 100 == 0) {
-                log.info("Crawled ${crawled.size} urls in ${Duration.between(start, Instant.now()).seconds} seconds, ${toCrawl.size()} enqueued to be crawled.")
+                log.info("Crawled ${crawled.size} urls from $domain in ${Duration.between(start, Instant.now()).seconds} seconds, ${toCrawl.size()} enqueued to be crawled.")
             }
         }
 

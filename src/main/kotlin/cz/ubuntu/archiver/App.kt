@@ -1,18 +1,37 @@
 package cz.ubuntu.archiver
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.apache.http.client.utils.URIBuilder
+import org.slf4j.LoggerFactory
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths
 
 object App {
 
+    private val log = LoggerFactory.getLogger(App::class.java)!!
+
     @JvmStatic
     fun main(args: Array<String>) {
-        check(args.isNotEmpty()) { "Start URL expected as the first argument." }
+        check(args.isNotEmpty()) { "At least one start URL expected as an argument." }
+        runBlocking {
+            args.map(::runAsync).forEach { it.join() }
+        }
+    }
 
-        val (startUrl, _) = args
+    private fun runAsync(startUrl: String): Job = GlobalScope.launch {
+        try {
+            run(startUrl)
+            log.info("$startUrl crawled and results saved.")
+        } catch (t: Throwable) {
+            log.error("Error crawling $startUrl.", t)
+        }
+    }
 
+    private fun run(startUrl: String) {
         val outputFile = Paths.get(".", "out")
                 .let { Files.createDirectories(it) }
                 .let { Paths.get(it.toString(), "${URIBuilder(startUrl).host}_output.txt") }
