@@ -1,5 +1,6 @@
 package cz.ubuntu.archiver
 
+import org.apache.commons.lang3.time.DurationFormatUtils
 import org.apache.http.HttpStatus
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
@@ -65,8 +66,13 @@ class Crawler {
                 log.warn("Could not crawl $url.", t)
             }
 
-            if (crawled.size % 100 == 0) {
-                log.info("Crawled ${crawled.size} urls from $domain in ${Duration.between(start, Instant.now()).seconds} seconds, ${toCrawl.size()} enqueued to be crawled.")
+            val logMessage by lazy {
+                val duration = DurationFormatUtils.formatDuration(Duration.between(start, Instant.now()).toMillis(), "mm:ss")
+                "Crawled ${crawled.size} urls from $domain in $duration, ${toCrawl.size()} enqueued to be crawled."
+            }
+            when {
+                crawled.size <= 1000 && crawled.size % 100 == 0 -> log.info(logMessage)
+                crawled.size > 1000 && crawled.size % 1000 == 0 -> log.info(logMessage)
             }
         }
 
