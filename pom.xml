@@ -64,6 +64,30 @@
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <mainClass>cz.ubuntu.archiver.App</mainClass>
+                    <arguments>
+                        <argument>https://iubuntu.cz/</argument>
+                        <argument>https://www.iubuntu.cz/</argument>
+                        <argument>http://www.kubuntu.cz/</argument>
+                        <argument>http://www.lubuntu.cz/</argument>
+                        <argument>http://www.xubuntu.cz/</argument>
+                        <argument>http://blog.ubuntu.cz/</argument>
+                        <argument>http://forum.ubuntu.cz/</argument>
+                        <argument>http://lists.ubuntu.cz/</argument>
+                        <argument>http://party.ubuntu.cz/</argument>
+                        <argument>http://sdruzeni.ubuntu.cz/</argument>
+                        <argument>http://shop.ubuntu.cz/</argument>
+                        <argument>http://wiki.ubuntu.cz/</argument>
+                        <argument>https://www.ubuntu.cz/</argument>
+                    </arguments>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
