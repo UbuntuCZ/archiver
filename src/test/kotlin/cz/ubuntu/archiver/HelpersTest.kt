@@ -31,6 +31,67 @@ class IsLinkToDomainTest {
 
 }
 
+class IsUrlToSkipTest {
+
+    @Test
+    fun skipsUserLoginAndRegister() {
+        // Arrange
+        val url1 = "https://example.com/user/login"
+        val url2 = "https://example.com/user/register?foo=bar"
+
+        // Act + Assert
+        assertThat(Helpers.isUrlToSkip(url1)).isTrue()
+        assertThat(Helpers.isUrlToSkip(url2)).isTrue()
+    }
+
+    @Test
+    fun skipsDashExportAtTheStart() {
+        // Arrange
+        val url = "https://example.com/_export/some/file"
+
+        // Act + Assert
+        assertThat(Helpers.isUrlToSkip(url)).isTrue()
+    }
+
+    @Test
+    fun doesNotSkipDashExportInTheMiddle() {
+        // Arrange
+        val url = "https://example.com/nested/_export/some/file"
+
+        // Act + Assert
+        assertThat(Helpers.isUrlToSkip(url)).isFalse()
+    }
+
+    @Test
+    fun skipsDoInQueryString() {
+        // Arrange
+        val url1 = "https://example.com/path/to/file.txt?do=foo"
+        val url2 = "https://example.com/path/to/file.txt?dontDo=foo&do=bar"
+
+        // Act + Assert
+        assertThat(Helpers.isUrlToSkip(url1)).isTrue()
+        assertThat(Helpers.isUrlToSkip(url2)).isTrue()
+    }
+
+    @Test
+    fun doesNotSkipNotDoInQueryString() {
+        // Arrange
+        val url = "https://example.com/path/to/file.txt?notdo=do"
+
+        // Act + Assert
+        assertThat(Helpers.isUrlToSkip(url)).isFalse()
+    }
+
+    @Test
+    fun skipsActionProfile() {
+        // Arrange
+        val url = "https://example.com/path/to/file.txt?action=profile;u=0"
+
+        // Act + Assert
+        assertThat(Helpers.isUrlToSkip(url)).isTrue()
+    }
+}
+
 class RemoveFragmentTest {
 
     @Test

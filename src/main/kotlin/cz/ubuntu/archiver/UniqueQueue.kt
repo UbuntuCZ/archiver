@@ -4,7 +4,9 @@ class UniqueQueue<E>(c: Collection<E> = emptyList()) {
 
     private val linkedSet: LinkedHashSet<E> = LinkedHashSet(c)
 
-    fun offer(e: E): Boolean = linkedSet.add(e)
+    fun offer(e: E) {
+        linkedSet.add(e)
+    }
 
     fun poll(): E? {
         val iterator = linkedSet.iterator()
