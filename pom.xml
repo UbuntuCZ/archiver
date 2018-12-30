@@ -77,7 +77,7 @@
                         <argument>http://www.lubuntu.cz/</argument>
                         <argument>http://www.xubuntu.cz/</argument>
                         <argument>http://blog.ubuntu.cz/</argument>
-                        <argument>http://forum.ubuntu.cz/</argument>
+                        <!--<argument>http://forum.ubuntu.cz/</argument>-->
                         <argument>http://lists.ubuntu.cz/</argument>
                         <argument>http://party.ubuntu.cz/</argument>
                         <argument>http://sdruzeni.ubuntu.cz/</argument>
